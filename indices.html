@@ -6,7 +6,7 @@
     <title>Editor de Índices</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Adicione o Firebase via CDN -->
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <style>
@@ -20,6 +20,20 @@
             display: none;
             position: fixed;
             z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
         }
         .tipo-indice-container {
             display: flex;
@@ -48,22 +62,44 @@
             background-color: #3498db;
             color: white;
         }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
         .btn-danger {
             background-color: #e74c3c;
             color: white;
         }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
         .btn-success {
             background-color: #27ae60;
             color: white;
+        }
+        .btn-success:hover {
+            background-color: #219653;
         }
         .btn-secondary {
             background-color: #f5f5f5;
             color: #333;
             border: 1px solid #ddd;
         }
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
         .btn-sm {
             padding: 5px 10px;
             font-size: 12px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
         }
     </style>
 </head>
@@ -157,6 +193,7 @@
     <!-- Modal de Confirmação -->
     <div id="confirm-modal" class="modal">
         <div class="modal-content">
+            <span class="close" id="confirm-close">&times;</span>
             <h3>Confirmar Exclusão</h3>
             <p id="confirm-message">Tem certeza que deseja excluir este item?</p>
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
@@ -166,10 +203,25 @@
         </div>
     </div>
 
-    <!-- Adicione os scripts na ordem correta -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
+    <!-- Configuração do Firebase -->
+    <script>
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCfuB7wfMOXajWuAV1cS2xPsp-3Hx9Upk4",
+            authDomain: "calccustas.firebaseapp.com",
+            projectId: "calccustas",
+            storageBucket: "calccustas.appspot.com",
+            messagingSenderId: "912892414256",
+            appId: "1:912892414256:web:b56f75b3a4441a1696e0f5",
+            measurementId: "G-3Y1SZK94DT"
+        };
+
+        // Inicializa o Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
+    <!-- Script principal -->
     <script src="indices.js"></script>
 </body>
 </html>
