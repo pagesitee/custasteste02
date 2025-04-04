@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Índices</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        #confirm-modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+        }
+        .tipo-indice-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        #delete-tipo {
+            margin-left: 10px;
+        }
+        .control-panel {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-actions">
+                <div>
+                    <h1>Editor de Índices IPCA-E</h1>
+                    <p class="subtitle">Gerencie os índices para cálculo de atualização monetária</p>
+                </div>
+                <button id="back-btn" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Sistema
+                </button>
+            </div>
+        </header>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="tipo-indice">Tipo de Índice:</label>
+                <div class="tipo-indice-container">
+                    <select id="tipo-indice" class="form-control">
+                        <option value="IPCA-E">IPCA-E</option>
+                    </select>
+                    <button id="delete-tipo" class="btn btn-danger btn-sm" title="Excluir este tipo de índice">
+                        <i class="fas fa-trash"></i> Excluir
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="novo-tipo-indice">Adicionar Novo Tipo:</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="novo-tipo-indice" class="form-control" placeholder="Nome do novo índice">
+                    <button id="add-tipo-indice" class="btn btn-primary">Adicionar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <button id="add-year" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Adicionar Ano
+            </button>
+            <button id="import-data" class="btn btn-secondary">
+                <i class="fas fa-file-import"></i> Importar do Excel
+            </button>
+            <button id="export-data" class="btn btn-secondary">
+                <i class="fas fa-file-export"></i> Exportar para Excel
+            </button>
+            <button id="save-data" class="btn btn-success">
+                <i class="fas fa-save"></i> Salvar Índices
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table id="ipca-table" class="data-table">
+                <thead>
+                    <tr>
+                        <th>Ano</th>
+                        <th>Jan</th>
+                        <th>Fev</th>
+                        <th>Mar</th>
+                        <th>Abr</th>
+                        <th>Mai</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Ago</th>
+                        <th>Set</th>
+                        <th>Out</th>
+                        <th>Nov</th>
+                        <th>Dez</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Dados serão inseridos via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="instructions">
+            <h3>Instruções:</h3>
+            <ol>
+                <li>Clique em "Adicionar Ano" para incluir um novo ano de dados</li>
+                <li>Clique duas vezes em qualquer célula para editar o valor</li>
+                <li>Use o botão "Excluir" para remover um ano</li>
+                <li>Não esqueça de salvar após fazer alterações</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <h3>Confirmar Exclusão</h3>
+            <p id="confirm-message">Tem certeza que deseja excluir este item?</p>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <button id="confirm-cancel" class="btn btn-secondary">Cancelar</button>
+                <button id="confirm-action" class="btn btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adicione os scripts na ordem correta -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="indices.js"></script>
+</body>
+</html>
